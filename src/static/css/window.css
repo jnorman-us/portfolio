@@ -1,0 +1,27 @@
+.window {
+    font-family: monospace;
+    font-size: 15pt;
+
+	background-color: #222222;
+	position: fixed;
+	border-color: 1px solid transparent;
+	border-radius: 5px;
+	text-align: center;
+}
+
+.window-bar {
+	background-color: #3b3b3b;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	width: calc(100% - 30px);
+	padding: 10px 15px;
+	color: #0d0;
+}
+
+.window-bar-dot {
+
+}
+
+.window-content {
+
+}
