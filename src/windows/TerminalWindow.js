@@ -6,7 +6,7 @@ class TerminalWindow extends Window
 {
 	constructor()
 	{
-		super(500, 400, '#2E3436');
+		super(100, 100, 500, 400, '#2E3436');
 		//command_set = 
 	}
 
