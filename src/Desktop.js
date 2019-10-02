@@ -7,11 +7,6 @@ import './static/css/desktop.css';
 
 class Desktop extends React.Component
 {
-	constructor()
-	{
-		super();
-	}
-
 	render()
 	{
 		return (

@@ -13,7 +13,7 @@ class TerminalWindow extends Window
 	renderContent()
 	{
 		return (
-			<div class="">
+			<div className="">
 				Terminal!
 			</div>
 		);
