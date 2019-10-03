@@ -4,9 +4,14 @@ import '../static/css/window.css';
 
 class Window extends React.Component
 {
-	constructor(x_pos=100, y_pos=100, width=100, height=100, background_color='#000000')
+	constructor(title="Window", 
+		x_pos=100, y_pos=100, 
+		width=100, height=100, 
+		background_color='#000000')
 	{
 		super();
+
+		this.title = title;
 
 		// styling constants
 		this.style = {
@@ -29,6 +34,7 @@ class Window extends React.Component
 		};
 
 		this.state = {
+			dragging: false,
 			window: {
 				x: x_pos,
 				y: y_pos,
@@ -42,7 +48,7 @@ class Window extends React.Component
 
 	onDragMotion(e)
 	{
-		if(this.state.dragging)
+		if(this.state.dragging == true)
 		{
 			var diff_x = e.screenX - this.state.mouse.x;
 			var diff_y = e.screenY - this.state.mouse.y;
@@ -59,16 +65,31 @@ class Window extends React.Component
 		}
 	}
 
-	onMouseUp(e)
+	onMouseDown(e)
 	{
 		this.setState({
-			dragging: true
+			dragging: true,
+			mouse: {
+				x: e.screenX,
+				y: e.screenY
+			}
 		})
 	}
 
-	onMouseDown(e)
+	onMouseUp(e)
 	{
+		this.setState({
+			dragging: false,
+			mouse: {
+				x: e.screenX,
+				y: e.screenY
+			}
+		})
+	}
 
+	shouldComponentUpdate(nextProps, nextState)
+	{
+		return nextState.dragging;
 	}
 
 	render()
@@ -89,7 +110,7 @@ class Window extends React.Component
 						<div className="window-bar-dot" style={ this.style.greendot }></div>
 					</div>
 					<div className="window-bar-text">
-						joseph@jnorman.dev -- ~/portfolio
+						{ this.title }
 					</div>
 				</div>
 				<div className="window-content" style={ this.style.content }>

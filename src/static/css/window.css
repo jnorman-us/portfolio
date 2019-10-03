@@ -18,6 +18,11 @@
 	height: calc(15pt);
 	padding: 10px 15px;
 	color: cyan;
+
+	-webkit-user-select: none;  /* Chrome 49+ */
+	-moz-user-select: none;     /* Firefox 43+ */
+	-ms-user-select: none;      /* No support yet */
+	user-select: none;
 }
 
 .window-bar-dots {
