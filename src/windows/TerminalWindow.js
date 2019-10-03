@@ -6,14 +6,21 @@ class TerminalWindow extends Window
 {
 	constructor()
 	{
-		super("joseph@jnorman.dev -- ~/portfolio", 100, 100, 500, 400, '#2E3436');
-		//command_set = 
+		super({
+			closable: false,
+			x_pos: 100,
+			y_pos: 100,
+			width: 500,
+			height: 440,
+			background_color: '#2E3436',
+			window_title: 'joseph@jnorman.dev -- ~/portfolio',
+		});
 	}
 
 	renderContent()
 	{
 		return (
-			<div className="">
+			<div className="terminal">
 				Terminal!
 			</div>
 		);

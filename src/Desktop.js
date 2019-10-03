@@ -1,22 +1,17 @@
 import React from 'react';
 
-import WindowManager from './WindowManager.js';
-
 import './static/css/desktop.css';
 
+import WindowManager from './WindowManager.js';
 
 class Desktop extends React.Component
 {
-	constructor()
-	{
-		WindowManager.initialize();
-	}
-
 	render()
 	{
 		return (
-			<div className="desktop">
-				{{ WindowManager.openTerminalWindow() }}
+			<div id="desktop" className="desktop">
+				{ WindowManager.openTerminalWindow() }
+				{ WindowManager.openVideoWindow('https://www.youtube.com/embed/uJV4SeJXkwg') }
 			</div>
 		);
 	}

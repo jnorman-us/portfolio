@@ -4,54 +4,53 @@ import '../static/css/window.css';
 
 class Window extends React.Component
 {
-	constructor(title="Window", 
-		x_pos=100, y_pos=100, 
-		width=100, height=100, 
-		background_color='#000000')
+	constructor(props)
 	{
-		super();
-
-		this.title = title;
+		super(props);
 
 		// styling constants
 		this.style = {
 			content: {
-				backgroundColor: background_color
+				backgroundColor: this.props.background_color
 			},
 			reddot: {
-				backgroundColor: '#ff3b47'
+				backgroundColor: this.props.closable ? '#ff3b47' : '#ffadb2'
 			},
 			yellowdot: {
-				backgroundColor: '#ffc100'
+				backgroundColor: this.props.closable ? '#ffc100' : '#ffe9a3'
 			},
 			greendot: {
-				backgroundColor: '#00d742'
+				backgroundColor: this.props.closable ? '#00d742' : '#8bc99e'
 			},
 			window: {
-				width: width + 'px',
-				height: height + 'px'
+				width: this.props.width + 'px',
+				height: this.props.height + 'px'
 			}
 		};
 
 		this.state = {
+			title: this.props.window_title,
+			closable: this.props.closable,
 			dragging: false,
+			deleted: false,
 			window: {
-				x: x_pos,
-				y: y_pos,
+				x: this.props.x_pos,
+				y: this.props.y_pos,
 			},
 			mouse: {
 				x: 0,
-				y: 0
-			}
+				y: 0,
+			},
 		};
 	}
 
-	onDragMotion(e)
+	onDrag(e)
 	{
-		if(this.state.dragging == true)
+		if(this.state.dragging && e.screenX !== 0 && e.screenY !== 0)
 		{
 			var diff_x = e.screenX - this.state.mouse.x;
 			var diff_y = e.screenY - this.state.mouse.y;
+
 			this.setState({
 				window: {
 					x: this.state.window.x + diff_x,
@@ -59,7 +58,7 @@ class Window extends React.Component
 				},
 				mouse: {
 					x: e.screenX,
-					y: e.screenY,
+					y: e.screenY
 				}
 			});
 		}
@@ -73,29 +72,29 @@ class Window extends React.Component
 				x: e.screenX,
 				y: e.screenY
 			}
-		})
+		});
 	}
 
-	onMouseUp(e)
+	onMouseUp()
 	{
 		this.setState({
 			dragging: false,
-			mouse: {
-				x: e.screenX,
-				y: e.screenY
-			}
 		})
 	}
 
-	shouldComponentUpdate(nextProps, nextState)
+	closeWindow(e)
 	{
-		return nextState.dragging;
+		if(this.state.closable === true)
+		{
+			this.setState({
+				deleted: true
+			});
+		}
 	}
 
 	render()
 	{
-		console.log('test');
-		return (
+		return (this.state.deleted === false ? (
 			<div className="window" style={{ 
 				...this.style.window,
 				...{
@@ -103,21 +102,21 @@ class Window extends React.Component
 					marginTop: this.state.window.y + 'px',
 				}
 				}}>
-				<div className="window-bar" onMouseDown={this.onMouseDown.bind(this)} onMouseUp={this.onMouseUp.bind(this)} onMouseMove={this.onDragMotion.bind(this)}>
-					<div className="window-bar-dots">
+				<div className="window-bar" draggable="true" onMouseDown={this.onMouseDown.bind(this)} onMouseUp={this.onMouseUp.bind(this)} onDrag={this.onDrag.bind(this)}>
+					<div className="window-bar-dots" onClick={this.closeWindow.bind(this)}>
 						<div className="window-bar-dot" style={ this.style.reddot }></div>
 						<div className="window-bar-dot" style={ this.style.yellowdot }></div>
 						<div className="window-bar-dot" style={ this.style.greendot }></div>
 					</div>
 					<div className="window-bar-text">
-						{ this.title }
+						{ this.state.title }
 					</div>
 				</div>
 				<div className="window-content" style={ this.style.content }>
 					{ this.renderContent() }
 				</div>
 			</div>
-		);
+		) : (<div/>));
 	}
 }
 
