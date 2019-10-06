@@ -25,8 +25,6 @@ class Window extends React.Component
 		};
 
 		this.state = {
-			title: this.props.window_title,
-			closable: this.props.closable,
 			dragging: false,
 			deleted: false,
 			window_size: {
@@ -43,8 +41,14 @@ class Window extends React.Component
 			},
 		};
 
+		// constant properties
+		this.closable = this.props.closable;
+		this.draggable = this.props.draggable;
+		this.title = this.props.window_title;
 		this.window_pos_commands = this.props.pos;
-		this.windowRef = React.createRef();
+
+		// references
+		this.window_ref = React.createRef();
 	}
 
 	onDrag(e)
@@ -87,7 +91,7 @@ class Window extends React.Component
 
 	closeWindow(e)
 	{
-		if(this.state.closable === true)
+		if(this.closable === true)
 		{
 			this.setState({
 				deleted: true
@@ -98,11 +102,11 @@ class Window extends React.Component
 	render()
 	{
 		return (this.state.deleted === false ? (
-			<div ref={ this.windowRef } className="window" style={{ 
+			<div ref={ this.window_ref } className="window" style={{ 
 					marginLeft: this.state.window_pos.x + 'px',
 					marginTop: this.state.window_pos.y + 'px',
 				}}>
-				<div className="window-bar" draggable="true" 
+				<div className="window-bar" draggable={ this.draggable } 
 					onMouseDown={this.onMouseDown.bind(this)} 
 					onMouseUp={this.onMouseUp.bind(this)} 
 					onDrag={this.onDrag.bind(this)}>
@@ -112,7 +116,7 @@ class Window extends React.Component
 						<div className="window-bar-dot" style={ this.style.greendot }></div>
 					</div>
 					<div className="window-bar-text">
-						{ this.state.title }
+						{ this.title }
 					</div>
 				</div>
 				<div className="window-content" style={ this.style.content }>
@@ -122,45 +126,60 @@ class Window extends React.Component
 		) : (<div/>));
 	}
 
+	updateDimensions(first=false)
+	{
+		var x_pos = 0;
+		var y_pos = 0;
+
+		var pos_commands = this.window_pos_commands;
+
+		if(pos_commands.x === 'center')
+		{
+			x_pos = window.innerWidth / 2 - this.window_ref.current.offsetWidth / 2;
+		}
+		else if(first)
+		{
+			if(pos_commands.x === 'random')
+				x_pos = Math.random() * (window.innerWidth - this.window_ref.current.offsetWidth);
+			else if(typeof pos_commands.x === 'number')
+				x_pos = pos_commands.x;
+		}
+		else
+		{
+			x_pos = this.state.window_pos.x;
+		}
+
+		if(pos_commands.y === 'center')
+		{
+			y_pos = window.innerHeight / 2 - this.window_ref.current.offsetHeight / 2;
+		}
+		else if(first)
+		{
+			if(pos_commands.y === 'random')
+				y_pos = Math.random() * (window.innerHeight - this.window_ref.current.offsetHeight);
+			else if(typeof pos_commands.y === 'number')
+				y_pos = pos_commands.y;
+		}
+		else
+		{
+			y_pos = this.state.window_pos.y;
+		}
+
+		this.setState({
+			window_pos: {
+				x: x_pos,
+				y: y_pos,
+			}
+		})
+	}
+
 	componentDidMount()
 	{
 		var self = this;
-		this.setState({
-			window_pos: (function() {
-				var x_pos = 0;
-				var y_pos = 0;
-
-				console.log(self.window_pos_commands);
-				if(self.window_pos_commands.x === 'center')
-				{
-					x_pos = window.innerWidth / 2 - self.windowRef.current.offsetWidth / 2;
-				}
-				else if(self.window_pos_commands.x === 'random')
-				{
-					
-				}
-				else
-					x_pos = self.window_pos_commands.x;
-
-				if(self.window_pos_commands.y === 'center')
-				{
-					y_pos = window.innerHeight / 2 - self.windowRef.current.offsetHeight / 2;
-				}
-				else if(self.window_pos_commands.y === 'random')
-				{
-					
-				}
-				else
-				{
-					y_pos = self.window_pos_commands.y;
-				}
-				console.log(x_pos, y_pos)
-				return {
-					x: x_pos,
-					y: y_pos,
-				}
-			})
-		});
+		this.updateDimensions(true);
+		window.addEventListener('resize', function() {
+			self.updateDimensions(false);
+		});	
 	}
 }
 

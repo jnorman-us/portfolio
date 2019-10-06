@@ -9,7 +9,8 @@ class WindowManager
 	{
 		return <TerminalWindow />;
 	}
-	static openVideoWindow(video_link)
+	
+	static openVideoWindow(video_link='')
 	{
 		return <VideoWindow video_link={ video_link }/>;
 	}

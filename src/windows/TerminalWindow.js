@@ -32,14 +32,14 @@ class TerminalWindow extends Window
 			<div className="terminal">
 				<div className="terminal-command">
 					<div className="terminal-command-query">joseph@jnorman.dev:~$ </div>
-					<div className="terminal-command-prompt" contentEditable="false">help</div>
+					<div className="terminal-command-prompt">help</div>
 					<div className="terminal-query-output">this is some test output blah lbah blah</div>
 					<div className="terminal-query-output">this is some more test output</div>
 				</div>
 				<div className="terminal-command">
 					<div className="terminal-command-query">joseph@jnorman.dev:~$ </div>
 					<div className="terminal-command-prompt" 
-						onKeyPress={ this.enterCommand } contentEditable="true"></div>
+						onKeyPress={ this.enterCommand }></div>
 				</div>
 			</div>
 		);
