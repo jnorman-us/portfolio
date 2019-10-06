@@ -102,7 +102,10 @@ class Window extends React.Component
 					marginTop: this.state.window.y + 'px',
 				}
 				}}>
-				<div className="window-bar" draggable="true" onMouseDown={this.onMouseDown.bind(this)} onMouseUp={this.onMouseUp.bind(this)} onDrag={this.onDrag.bind(this)}>
+				<div className="window-bar" draggable="true" 
+					onMouseDown={this.onMouseDown.bind(this)} 
+					onMouseUp={this.onMouseUp.bind(this)} 
+					onDrag={this.onDrag.bind(this)}>
 					<div className="window-bar-dots" onClick={this.closeWindow.bind(this)}>
 						<div className="window-bar-dot" style={ this.style.reddot }></div>
 						<div className="window-bar-dot" style={ this.style.yellowdot }></div>

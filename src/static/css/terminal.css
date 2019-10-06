@@ -1,0 +1,27 @@
+[contenteditable]:focus {
+    outline: 0px solid transparent;
+}
+
+.terminal {
+	margin: 5px;
+	width: calc(100% - 10px);
+	height: calc(100% - 10px);
+	display: flex;
+	justify-content: flex-end;
+	flex-direction: column;
+}
+
+.terminal-command {
+	color: #f0f0f0;
+}
+
+.terminal-command-query {
+	float: left;
+	color: #8AE234;
+}
+
+.terminal-command-prompt {
+	margin-left: 175px;
+	caret-style: block;
+
+}	
