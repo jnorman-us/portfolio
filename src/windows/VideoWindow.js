@@ -9,8 +9,8 @@ class VideoWindow extends Window
 		super({
 			video_link: props.video_link,
 			closable: true,
-			x_pos: 0,
-			y_pos: 0,
+			x_pos: this.getPos("random"),
+			y_pos: this.getPos("random"),
 			width: parseInt(props.width) + 2,
 			height: parseInt(props.height) + 40,
 			background_color: '#fafafa',

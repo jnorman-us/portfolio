@@ -10,10 +10,10 @@ class TerminalWindow extends Window
 	{
 		super({
 			closable: false,
-			x_pos: 100,
-			y_pos: 100,
-			width: 500,
-			height: 440,
+			width: this.getWidth(),
+			height: this.getHeight(),
+			x_pos: this.getXPos("center"),
+			y_pos: this.getYPos("center"),
 			background_color: '#2E3436',
 			window_title: 'joseph@jnorman.dev -- ~/portfolio',
 		});

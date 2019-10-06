@@ -121,6 +121,26 @@ class Window extends React.Component
 			</div>
 		) : (<div/>));
 	}
+
+	getXPos(key)
+	{
+
+	}
+
+	getYPos(key)
+	{
+
+	}
+
+	getWidth(width)
+	{
+
+	}
+
+	getHeight(height)
+	{
+
+	}
 }
 
 export default Window;
