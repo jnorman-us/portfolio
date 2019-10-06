@@ -21,10 +21,6 @@ class Window extends React.Component
 			},
 			greendot: {
 				backgroundColor: this.props.closable ? '#00d742' : '#8bc99e'
-			},
-			window: {
-				width: this.props.width + 'px',
-				height: this.props.height + 'px'
 			}
 		};
 
@@ -33,30 +29,37 @@ class Window extends React.Component
 			closable: this.props.closable,
 			dragging: false,
 			deleted: false,
-			window: {
-				x: this.props.x_pos,
-				y: this.props.y_pos,
+			window_size: {
+				width: this.props.width,
+				height: this.props.height,
 			},
-			mouse: {
+			window_pos: {
+				x: 0,
+				y: 0,
+			},
+			mouse_pos: {
 				x: 0,
 				y: 0,
 			},
 		};
+
+		this.window_pos_commands = this.props.pos;
+		this.windowRef = React.createRef();
 	}
 
 	onDrag(e)
 	{
 		if(this.state.dragging && e.screenX !== 0 && e.screenY !== 0)
 		{
-			var diff_x = e.screenX - this.state.mouse.x;
-			var diff_y = e.screenY - this.state.mouse.y;
+			var diff_x = e.screenX - this.state.mouse_pos.x;
+			var diff_y = e.screenY - this.state.mouse_pos.y;
 
 			this.setState({
-				window: {
-					x: this.state.window.x + diff_x,
-					y: this.state.window.y + diff_y,
+				window_pos: {
+					x: this.state.window_pos.x + diff_x,
+					y: this.state.window_pos.y + diff_y,
 				},
-				mouse: {
+				mouse_pos: {
 					x: e.screenX,
 					y: e.screenY
 				}
@@ -68,7 +71,7 @@ class Window extends React.Component
 	{
 		this.setState({
 			dragging: true,
-			mouse: {
+			mouse_pos: {
 				x: e.screenX,
 				y: e.screenY
 			}
@@ -95,12 +98,9 @@ class Window extends React.Component
 	render()
 	{
 		return (this.state.deleted === false ? (
-			<div className="window" style={{ 
-				...this.style.window,
-				...{
-					marginLeft: this.state.window.x + 'px',
-					marginTop: this.state.window.y + 'px',
-				}
+			<div ref={ this.windowRef } className="window" style={{ 
+					marginLeft: this.state.window_pos.x + 'px',
+					marginTop: this.state.window_pos.y + 'px',
 				}}>
 				<div className="window-bar" draggable="true" 
 					onMouseDown={this.onMouseDown.bind(this)} 
@@ -122,24 +122,45 @@ class Window extends React.Component
 		) : (<div/>));
 	}
 
-	getXPos(key)
+	componentDidMount()
 	{
+		var self = this;
+		this.setState({
+			window_pos: (function() {
+				var x_pos = 0;
+				var y_pos = 0;
 
-	}
+				console.log(self.window_pos_commands);
+				if(self.window_pos_commands.x === 'center')
+				{
+					x_pos = window.innerWidth / 2 - self.windowRef.current.offsetWidth / 2;
+				}
+				else if(self.window_pos_commands.x === 'random')
+				{
+					
+				}
+				else
+					x_pos = self.window_pos_commands.x;
 
-	getYPos(key)
-	{
-
-	}
-
-	getWidth(width)
-	{
-
-	}
-
-	getHeight(height)
-	{
-
+				if(self.window_pos_commands.y === 'center')
+				{
+					y_pos = window.innerHeight / 2 - self.windowRef.current.offsetHeight / 2;
+				}
+				else if(self.window_pos_commands.y === 'random')
+				{
+					
+				}
+				else
+				{
+					y_pos = self.window_pos_commands.y;
+				}
+				console.log(x_pos, y_pos)
+				return {
+					x: x_pos,
+					y: y_pos,
+				}
+			})
+		});
 	}
 }
 

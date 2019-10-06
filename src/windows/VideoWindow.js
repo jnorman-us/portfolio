@@ -9,10 +9,8 @@ class VideoWindow extends Window
 		super({
 			video_link: props.video_link,
 			closable: true,
-			x_pos: this.getPos("random"),
-			y_pos: this.getPos("random"),
-			width: parseInt(props.width) + 2,
-			height: parseInt(props.height) + 40,
+			x_pos: 0,
+			y_pos: 0,
 			background_color: '#fafafa',
 			window_title: 'Videos -- ' + props.video_link,
 		});
@@ -20,14 +18,7 @@ class VideoWindow extends Window
 
 	renderContent()
 	{
-		return (
-			<div className="video">
-				<iframe className="video-frame" width={ this.props.width } 
-				height={ (this.props.height) } src={ this.props.video_link } 
-				frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-				allowFullScreen></iframe>
-			</div>
-		);
+		return;
 	}
 }
 

@@ -11,7 +11,7 @@ class WindowManager
 	}
 	static openVideoWindow(video_link)
 	{
-		return <VideoWindow video_link={ video_link } width="500" height="281"/>;
+		return <VideoWindow video_link={ video_link }/>;
 	}
 }
 
