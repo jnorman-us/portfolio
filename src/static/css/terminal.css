@@ -9,6 +9,7 @@
 	display: flex;
 	justify-content: flex-end;
 	flex-direction: column;
+	color: #f0f0f0;
 }
 
 .terminal-command-query {
@@ -40,7 +41,15 @@
 .white {
 	color: #f0f0f0;
 }
-
+.red {
+	color: #f04040;
+}
+.orange {
+	color: #f08040;
+}
 .green {
 	color: #8AE234;
+}
+.blue {
+	color: cyan;
 }

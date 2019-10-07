@@ -22,9 +22,17 @@ class TerminalWindow extends Window
 		this.commandTemplates = new Map();
 		this.commandTemplates.set('start', {
 			output: [ 
-				'$gHello.',
-				'$wI am Joseph Norman, Computer Science student at the University of Texas at Dallas',
-				'$wTo get started, try out the "help" command',
+				'$b$+--------------- Hello ---------------+$b$',
+				'$w$I am Joseph Norman, Computer Science student$w$',
+				'$w$at the $w$$o$University of Texas at Dallas.$o$',
+				'$w$To get started, try out the $w$$g$"help"$g$$w$ command$w$',
+			],
+			window: false,
+		});
+		this.commandTemplates.set('error', {
+			output: [
+				'$r$Command not found!$r$',
+				'$w$Try running the $w$$g$help$g$$w$ command$w$',
 			],
 			window: false,
 		});
@@ -43,13 +51,12 @@ class TerminalWindow extends Window
 	{
 		if(e.keyCode === 13)
 		{
-			var state = this.getState();
 			var commandText = e.target.value;
-			var commands = state.commands.slice(0);
+			var commands = this.getState().commands.slice(0);
 
 			if(this.commandTemplates.has(commandText))
 			{
-				commands.unshift(commandText);
+				commands.push(commandText);
 				this.setInState({
 					commands: commands,
 				});
@@ -58,25 +65,31 @@ class TerminalWindow extends Window
 			}
 			else
 			{
-				commands.unshift('error');
+				commands.push('error');
 				this.setInState({
 					commands: commands,
 				});
 			}
+			console.log("HEY")
 
-			for( ; state.line < state.commands.length; state.line ++)
+			var commands = this.getState().commands;
+			var i = 0;
+			for(i = this.getState().line; i < this.getState().commands.length; i ++)
 			{
 				var self = this;
-				setTimeout(function() {
-					self.renderLine(state.command[state.line]);
-				}, 250 * this.state.line);
+				console.log(i);
+				setTimeout((function(newI) { console.log(newI); }).bind(i), 333 * i);
+				// self.renderOutput(commands[newI]);
 			}
+			this.setInState({
+				line: i,
+			});
+
 		}
 	}
 
 	renderContent()
 	{
-		console.log(this.getState());
 		return (
 			<div className="terminal">
 				{ this.getState().renderedLines }
@@ -89,8 +102,10 @@ class TerminalWindow extends Window
 		var lines = [];
 		var outputLines = [];
 
+		console.log(command);
 		for(var line of this.commandTemplates.get(command).output)
 		{
+			console.log(line);
 			outputLines.push(
 				<div className="terminal-query-output">
 					{ this.renderOutputLine(line) }
@@ -105,35 +120,55 @@ class TerminalWindow extends Window
 					<input className="terminal-command-prompt" value={command} readOnly></input>
 				</div><br></br>
 				{ outputLines }
+				{ this.renderInputLine() }
 			</div>
 		);
 
 		this.setInState({
 			renderedLines: this.getState().renderedLines.concat(lines)
 		});
+		console.log(this.getState());
 	}
 
 	renderOutputLine(line)
-	{/*
-		var colorBlock = [];
+	{
+		const colors = new Map();
+		colors.set('w', 'white');
+		colors.set('r', 'red');
+		colors.set('o', 'orange');
+		colors.set('g', 'green');
+		colors.set('b', 'blue');
 
-		var index = 0;
-		var opened = false;
-		while(line.indexOf('$', index))
+		var colorBlocks = [];
+		var tagArray = line.split('$');
+
+		for(var i = 0; i < tagArray.length; i ++)
 		{
-			if(opened)
+			if(tagArray[i].length === 1)
 			{
-				opened = false;
-				colorBlock
+				// then should be a color tag
+				var color = colors.get(tagArray[i]);
+				var text = tagArray[i + 1];
+				colorBlocks.push(<span className={ color }>{ text }</span>);
+				i += 2;
 			}
-			else
-			{
-				opened = true;
-			}
-			var colorCode = 
-			index = line.indexOf('$', index + 1);
-		}*/
-		return <span className="white">{line}</span>
+		}
+		return colorBlocks;
+	}
+
+	renderInputLine()
+	{
+		var state = this.getState();
+
+		if(state.line == state.renderedLines.length)
+		{
+			return (
+				<div className="terminal-command-query">
+					<span className="green">joseph@jnorman.dev:</span><span className="white">~$</span>
+					<input onKeyDown={ this.onEnter.bind(this) }className="terminal-command-prompt"></input>
+				</div>
+			);
+		}
 	}
 }
 
