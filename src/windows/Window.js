@@ -135,7 +135,7 @@ class Window extends React.Component
 					</div>
 				</div>
 				<div className="window-content" style={ this.style.content }>
-					{ this.renderContent() }
+					{ this.renderContent(this.state) }
 				</div>
 			</div>
 		) : (<div/>));

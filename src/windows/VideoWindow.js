@@ -19,7 +19,7 @@ class VideoWindow extends Window
 		});
 	}
 
-	renderContent()
+	renderContent(state)
 	{
 		return <div></div>;
 	}

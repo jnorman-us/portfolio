@@ -22,7 +22,7 @@ class TerminalWindow extends Window
 		this.commandTemplates = new Map();
 		this.commandTemplates.set('start', {
 			output: [ 
-				'$b$+--------------- Hello ---------------+$b$',
+				'$b$+----------------- Hello -----------------+$b$',
 				'$w$I am Joseph Norman, Computer Science student$w$',
 				'$w$at the $w$$o$University of Texas at Dallas.$o$',
 				'$w$To get started, try out the $w$$g$"help"$g$$w$ command$w$',
@@ -38,11 +38,9 @@ class TerminalWindow extends Window
 		});
 
 		this.setInState({
-			commands: [
-				'start',
-			],
+			commands: [ 'start' ],
 			renderedLines: [],
-			line: 0,
+			line: 1
 		});
 		this.renderOutput('start');
 	}
@@ -70,42 +68,42 @@ class TerminalWindow extends Window
 					commands: commands,
 				});
 			}
-			console.log("HEY")
 
-			var commands = this.getState().commands;
-			var i = 0;
-			for(i = this.getState().line; i < this.getState().commands.length; i ++)
-			{
-				var self = this;
-				console.log(i);
-				setTimeout((function(newI) { console.log(newI); }).bind(i), 333 * i);
-				// self.renderOutput(commands[newI]);
-			}
+			commands = this.getState().commands;
 			this.setInState({
-				line: i,
+				renderedLines: []
 			});
 
+			var i = 0;
+			for(i = 0; i < this.getState().commands.length; i ++)
+			{
+				var self = this;
+				this.renderOutput(commands[i]);
+			}
+			this.setInState({
+				line: i, 
+			});
 		}
 	}
 
-	renderContent()
+	renderContent(state)
 	{
+		console.log(state.renderedLines);
 		return (
 			<div className="terminal">
-				{ this.getState().renderedLines }
+				{ state.renderedLines }
+				{ this.renderInputLine() }
 			</div>
 		);
 	}
 
 	renderOutput(command)
 	{
-		var lines = [];
+		console.log(command);
 		var outputLines = [];
 
-		console.log(command);
 		for(var line of this.commandTemplates.get(command).output)
 		{
-			console.log(line);
 			outputLines.push(
 				<div className="terminal-query-output">
 					{ this.renderOutputLine(line) }
@@ -113,17 +111,17 @@ class TerminalWindow extends Window
 			);
 		}
 
-		lines.push(
+		var lines = (
 			<div className="terminal-command">
 				<div className="terminal-command-query">
 					<span className="green">joseph@jnorman.dev:</span><span className="white">~$</span>
 					<input className="terminal-command-prompt" value={command} readOnly></input>
 				</div><br></br>
 				{ outputLines }
-				{ this.renderInputLine() }
 			</div>
 		);
 
+		console.log(lines);
 		this.setInState({
 			renderedLines: this.getState().renderedLines.concat(lines)
 		});
@@ -160,13 +158,18 @@ class TerminalWindow extends Window
 	{
 		var state = this.getState();
 
-		if(state.line == state.renderedLines.length)
+		if(state.line === state.renderedLines.length)
 		{
 			return (
 				<div className="terminal-command-query">
 					<span className="green">joseph@jnorman.dev:</span><span className="white">~$</span>
 					<input onKeyDown={ this.onEnter.bind(this) }className="terminal-command-prompt"></input>
 				</div>
+			);
+		}
+		else
+		{
+			return (<div></div>
 			);
 		}
 	}
