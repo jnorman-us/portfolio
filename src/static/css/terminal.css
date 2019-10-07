@@ -11,17 +11,36 @@
 	flex-direction: column;
 }
 
-.terminal-command {
-	color: #f0f0f0;
-}
-
 .terminal-command-query {
 	float: left;
-	color: #8AE234;
+	width: 100%;
 }
 
 .terminal-command-prompt {
-	margin-left: 175px;
-	caret-style: block;
-
+	margin-left: 7px;
+	background-color: inherit;
+	outline: none;
+	border: none;
+	color: inherit;
+	font: inherit;
+	padding: 0px;
+	width: calc(100% - 178px);
 }	
+
+.terminal-query-output {
+	white-space: pre;
+	overflow-x: auto;
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
+}
+
+.white {
+	color: #f0f0f0;
+}
+
+.green {
+	color: #8AE234;
+}

@@ -51,6 +51,21 @@ class Window extends React.Component
 		this.window_ref = React.createRef();
 	}
 
+	setInState(toMerge)
+	{
+		this.state = {...this.state, ...toMerge};
+	}
+
+	addToState(toMerge)
+	{
+		this.setState({...this.state, ...toMerge})
+	}
+
+	getState()
+	{
+		return this.state;
+	}
+
 	onDrag(e)
 	{
 		if(this.state.dragging && e.screenX !== 0 && e.screenY !== 0)

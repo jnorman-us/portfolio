@@ -21,7 +21,7 @@ class VideoWindow extends Window
 
 	renderContent()
 	{
-		return;
+		return <div></div>;
 	}
 }
 

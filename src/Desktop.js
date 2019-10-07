@@ -79,7 +79,6 @@ class Desktop extends React.Component
 					{ renderText }
 				</div>
 				{ WindowManager.openTerminalWindow() }
-				{ WindowManager.openVideoWindow('rest') }
 			</div>
 		);
 	}
