@@ -21,7 +21,7 @@ class TerminalPart extends React.Component
 		this.commandTemplates.set('error', {
 			output: [
 				'$r$Command not found!$r$',
-				'$w$Try running the $w$$g$help$g$$w$ command$w$',
+				'$w$Try running the $w$$g$"help"$g$$w$ command$w$',
 			],
 			window: false,
 		});
@@ -43,6 +43,7 @@ class TerminalPart extends React.Component
 				this.setState({
 					commands: this.state.commands.concat(commandText),
 				});
+				this.renderOutput(commandText);
 
 				// now, open window
 			}
@@ -51,9 +52,8 @@ class TerminalPart extends React.Component
 				this.setState({
 					commands: this.state.commands.concat('error'),
 				});
+				this.renderOutput('error');
 			}
-
-			this.renderOutput(commandText);
 		}
 	}
 
@@ -126,7 +126,7 @@ class TerminalPart extends React.Component
 		return (
 			<div className="terminal-command-query">
 				<span className="green">joseph@jnorman.dev:</span><span className="white">~$</span>
-				<input onKeyDown={ this.onEnter.bind(this) }className="terminal-command-prompt"></input>
+				<input onKeyDown={ this.onEnter.bind(this) } className="terminal-command-prompt"></input>
 			</div>
 		);
 	}
