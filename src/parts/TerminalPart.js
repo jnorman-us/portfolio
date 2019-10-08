@@ -27,9 +27,13 @@ class TerminalPart extends React.Component
 		});
 
 		this.state = {
-			commands: [ 'start' ],
+			commands: [],
 			renderedLines: [],
 		};
+	}
+
+	componentDidMount()
+	{
 		this.renderOutput('start');
 	}
 
@@ -38,6 +42,7 @@ class TerminalPart extends React.Component
 		if(e.keyCode === 13)
 		{
 			var commandText = e.target.value;
+			e.target.value = '';
 			if(this.commandTemplates.has(commandText))
 			{
 				this.setState({
@@ -52,7 +57,7 @@ class TerminalPart extends React.Component
 				this.setState({
 					commands: this.state.commands.concat('error'),
 				});
-				this.renderOutput('error');
+				this.renderOutput('error', commandText);
 			}
 		}
 	}
@@ -67,7 +72,7 @@ class TerminalPart extends React.Component
 		);
 	}
 
-	renderOutput(command)
+	renderOutput(command, attemptedCommand)
 	{
 		var outputLines = [];
 
@@ -84,7 +89,7 @@ class TerminalPart extends React.Component
 			<div className="terminal-command">
 				<div className="terminal-command-query">
 					<span className="green">joseph@jnorman.dev:</span><span className="white">~$</span>
-					<input className="terminal-command-prompt" value={ command } readOnly></input>
+					<input className="terminal-command-prompt" value={ command !== 'error' ? command : attemptedCommand } readOnly></input>
 				</div><br></br>
 				{ outputLines }
 			</div>
@@ -126,7 +131,7 @@ class TerminalPart extends React.Component
 		return (
 			<div className="terminal-command-query">
 				<span className="green">joseph@jnorman.dev:</span><span className="white">~$</span>
-				<input onKeyDown={ this.onEnter.bind(this) } className="terminal-command-prompt"></input>
+				<input onKeyDown={ this.onEnter.bind(this) }  className="terminal-command-prompt"></input>
 			</div>
 		);
 	}
