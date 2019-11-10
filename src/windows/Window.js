@@ -11,16 +11,16 @@ class Window extends React.Component
 		// styling constants
 		this.style = {
 			content: {
-				backgroundColor: this.props.background_color
+				backgroundColor: props.backgroundColor
 			},
 			reddot: {
-				backgroundColor: this.props.closable ? '#ff3b47' : '#ffadb2'
+				backgroundColor: props.closable ? '#ff3b47' : '#ffadb2'
 			},
 			yellowdot: {
-				backgroundColor: this.props.closable ? '#ffc100' : '#ffe9a3'
+				backgroundColor: props.closable ? '#ffc100' : '#ffe9a3'
 			},
 			greendot: {
-				backgroundColor: this.props.closable ? '#00d742' : '#8bc99e'
+				backgroundColor: props.closable ? '#00d742' : '#8bc99e'
 			}
 		};
 
@@ -28,8 +28,8 @@ class Window extends React.Component
 			dragging: false,
 			deleted: false,
 			window_size: {
-				width: this.props.width,
-				height: this.props.height,
+				width: 0,
+				height: 0,
 			},
 			window_pos: {
 				x: 0,
@@ -40,12 +40,6 @@ class Window extends React.Component
 				y: 0,
 			},
 		};
-
-		// constant properties
-		this.closable = this.props.closable;
-		this.draggable = this.props.draggable;
-		this.title = this.props.window_title;
-		this.window_pos_commands = this.props.pos;
 
 		// references
 		this.window_ref = React.createRef();
@@ -91,7 +85,7 @@ class Window extends React.Component
 
 	closeWindow(e)
 	{
-		if(this.closable === true)
+		if(this.props.closable === true)
 		{
 			this.setState({
 				deleted: true
@@ -102,13 +96,13 @@ class Window extends React.Component
 	render()
 	{
 		return (this.state.deleted === false ? (
-			<div ref={ this.window_ref } className="window" style={{ 
+			<div ref={ this.window_ref } className="window" style={{
 					marginLeft: this.state.window_pos.x + 'px',
 					marginTop: this.state.window_pos.y + 'px',
 				}}>
-				<div className="window-bar" draggable={ this.draggable } 
-					onMouseDown={this.onMouseDown.bind(this)} 
-					onMouseUp={this.onMouseUp.bind(this)} 
+				<div className="window-bar" draggable={ this.props.draggable }
+					onMouseDown={this.onMouseDown.bind(this)}
+					onMouseUp={this.onMouseUp.bind(this)}
 					onDrag={this.onDrag.bind(this)}>
 					<div className="window-bar-dots" onClick={this.closeWindow.bind(this)}>
 						<div className="window-bar-dot" style={ this.style.reddot }></div>
@@ -116,11 +110,11 @@ class Window extends React.Component
 						<div className="window-bar-dot" style={ this.style.greendot }></div>
 					</div>
 					<div className="window-bar-text">
-						{ this.title }
+						{ this.props.title }
 					</div>
 				</div>
 				<div className="window-content" style={ this.style.content }>
-					{ this.renderContent(this.state) }
+					{ this.props.children }
 				</div>
 			</div>
 		) : (<div/>));
@@ -131,7 +125,7 @@ class Window extends React.Component
 		var x_pos = 0;
 		var y_pos = 0;
 
-		var pos_commands = this.window_pos_commands;
+		var pos_commands = this.props.pos;
 
 		if(pos_commands.x === 'center')
 		{
@@ -179,7 +173,7 @@ class Window extends React.Component
 		this.updateDimensions(true);
 		window.addEventListener('resize', function() {
 			self.updateDimensions(false);
-		});	
+		});
 	}
 }
 

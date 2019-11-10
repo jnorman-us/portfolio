@@ -2,7 +2,7 @@ import React from 'react';
 
 import './static/css/desktop.css';
 
-import WindowManager from './WindowManager.js';
+import Windows from './Windows.js';
 
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -70,7 +70,7 @@ class Desktop extends React.Component
 		var renderText = [];
 		for(var line of this.state.text)
 		{
-			renderText.push(<div>{line}</div>);
+			renderText.push(<div key={ renderText.length }>{line}</div>);
 		}
 
 		return (
@@ -78,7 +78,7 @@ class Desktop extends React.Component
 				<div className="desktop-background">
 					{ renderText }
 				</div>
-				{ WindowManager.openTerminalWindow() }
+				<Windows />
 			</div>
 		);
 	}
