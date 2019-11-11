@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { hasTerminalData, getTerminalData } from '../data/TerminalData';
 import '../static/css/terminal.css';
 
 class TerminalWindow extends React.Component
@@ -7,24 +8,6 @@ class TerminalWindow extends React.Component
 	constructor(props)
 	{
 		super(props);
-		// commands and their outputs
-		this.commandTemplates = new Map();
-		this.commandTemplates.set('start', {
-			output: [
-				'$b$+----------------- Hello -----------------+$b$',
-				'$w$I am Joseph Norman, Computer Science student$w$',
-				'$w$at the $w$$o$University of Texas at Dallas.$o$',
-				'$w$To get started, try out the $w$$g$"help"$g$$w$ command$w$',
-			],
-			window: false,
-		});
-		this.commandTemplates.set('error', {
-			output: [
-				'$r$Command not found!$r$',
-				'$w$Try running the $w$$g$"help"$g$$w$ command$w$',
-			],
-			window: false,
-		});
 
 		this.state = {
 			commands: [],
@@ -43,7 +26,7 @@ class TerminalWindow extends React.Component
 		{
 			var commandText = e.target.value;
 			e.target.value = '';
-			if(this.commandTemplates.has(commandText))
+			if(hasTerminalData(commandText))
 			{
 				this.setState({
 					commands: this.state.commands.concat(commandText),
@@ -51,6 +34,11 @@ class TerminalWindow extends React.Component
 				this.renderOutput(commandText);
 
 				// now, open window
+				var terminalData = getTerminalData(commandText);
+				if(terminalData.window != null)
+				{
+					this.props.openWindow(terminalData.window);
+				}
 			}
 			else
 			{
@@ -76,7 +64,7 @@ class TerminalWindow extends React.Component
 	{
 		var outputLines = [];
 
-		for(var line of this.commandTemplates.get(command).output)
+		for(var line of	getTerminalData(command).output)
 		{
 			outputLines.push(
 				<div className="terminal-query-output">

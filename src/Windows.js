@@ -1,7 +1,10 @@
 import React from 'react';
 
+import { hasWindowData, getWindowData } from './data/WindowData';
+
 import Window from './windows/Window.js';
 import TerminalWindow from './windows/TerminalWindow.js';
+import ProjectWindow from './windows/ProjectWindow.js';
 
 class Windows extends React.Component
 {
@@ -11,35 +14,31 @@ class Windows extends React.Component
 
 		this.windows_i = 0;
 		this.windows = new Map();
-		this.windows.set(this.windows_i ++, {
-			type: 'terminal',
-		});
+		this.windows.set(this.windows_i ++, getWindowData('window_terminal'));
 
 		this.state = {
 			newWindow: false,
 		};
 	}
 
-	onWindowOpen()
+	openWindow(data_index)
 	{
-		this.setState({
-			newWindow: !this.state.newWindow,
-		});
-	}
+		if(hasWindowData(data_index))
+		{
+			this.windows.set(this.windows_i ++, getWindowData(data_index));
 
-	onWindowClose(id)
-	{
-		this.setState({
-			newWindow: !this.state.newWindow,
-		});
+			this.setState({
+				newWindow: !this.state.newWindow,
+			});
+		}
 	}
 
 	renderWindows()
 	{
 		var renderedWindows = [];
-		for(var [id, data] of this.windows)
+		for(var [id, window_data] of this.windows)
 		{
-			switch(data.type)
+			switch(window_data.type)
 			{
 				case 'terminal':
 					renderedWindows.push(
@@ -53,7 +52,7 @@ class Windows extends React.Component
 							}}
 						>
 							<TerminalWindow
-
+								openWindow={ this.openWindow.bind(this) }
 							/>
 						</Window>
 					);
@@ -63,19 +62,22 @@ class Windows extends React.Component
 						<Window
 							key={ id }
 							backgroundColor="#ffffff"
-							title={ data.title }
+							title={ window_data.data.title }
+							draggable
+							closable
+							pos={{
+								x: 'random',
+								y: 'random',
+							}}
 						>
-
+							<ProjectWindow
+								openWindow={ this.openWindow.bind(this) }
+								data={ window_data.data }
+							/>
 						</Window>
 					);
 					break;
-				default:
-					renderedWindows.push(
-						<h1 key={ id }>
-							ERROR
-						</h1>
-					);
-					break;
+				default: break;
 			}
 		}
 		return renderedWindows;
