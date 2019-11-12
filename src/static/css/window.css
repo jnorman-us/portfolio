@@ -22,9 +22,9 @@
 	background-color: #3b3b3b;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
-	width: calc(100% - 30px);
-	height: calc(15pt);
-	padding: 10px 15px;
+	/*width: calc(100% - 30px);*/ width: 100%;
+	/*height: calc(15pt);*/ height: 40px;
+	padding: 5px 15px;
 	color: cyan;
 
 	-webkit-user-select: none;  /* Chrome 49+ */
@@ -36,7 +36,7 @@
 .window-bar-dots {
 	float: left;
 	height: 100%;
-	padding-top: 6px;
+	padding-top: 10px;
 }
 
 .window-bar-dot {
@@ -58,7 +58,7 @@
 .window-bar-text {
 	float: left;
 	width: calc(100% - 75px);
-	height: 20px;
+	height: 40px;
 	margin-left: 15px;
 	white-space: nowrap;
 	overflow: hidden;

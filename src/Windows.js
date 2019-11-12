@@ -15,6 +15,7 @@ class Windows extends React.Component
 		this.windows_i = 0;
 		this.windows = new Map();
 		this.windows.set(this.windows_i ++, getWindowData('window_terminal'));
+		this.windows.set(this.windows_i ++, getWindowData('window_placeholder'));
 
 		this.state = {
 			newWindow: false,

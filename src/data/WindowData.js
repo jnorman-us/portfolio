@@ -8,7 +8,18 @@ data.set('window_placeholder', {
   data: {
     title: 'Placeholder Game Platform',
     description: 'Lorem ipsum dolor ...',
-    
+    slides: [{
+      image: '/image.gif',
+      title: 'Placeholder Game Platform',
+      description: '',
+    }],
+    technologies: [
+      'Node.JS', 'MySQL', 'Express',
+    ],
+    links: [{
+      title: 'Github Repository',
+      url: 'https://github.com',
+    }],
   }
 });
 
